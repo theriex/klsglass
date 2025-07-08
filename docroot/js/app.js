@@ -1,8 +1,8 @@
 /*global jtminjsDecorateWithUtilities, picfiles */
-/*jslint browser, multivar, white, fudge, for */
+/*jslint browser, white, unordered */
 
-var app = {},
-    jt = {};
+var app = {};
+var jt = {};
 
 (function () {
     "use strict";
@@ -47,8 +47,9 @@ var app = {},
             var pd = document.createElement("div");
             pd.className = "artpiecediv";
             pd.innerHTML = jt.tac2html(
-                ["img", {cla:"smallimg",
-                         src:"gpics/" + filename}]);
+                ["img", {cla:"smallimg", src:"gpics/" + filename,
+                         id:"glasspic" + idx,
+                         onclick:jt.fs("app.togImgSize(" + idx + ")")}]);
             pdiv.appendChild(pd); });
     }
 
@@ -65,7 +66,15 @@ var app = {},
                   ["div", {id:"picsdispdiv"}]]])); }
         const picfiles = filterSelectedPicTypes();
         displaySelectedPics(picfiles);
-    }
+    };
+
+    app.togImgSize = function (idx) {
+        const gp = jt.byId("glasspic" + idx);
+        if(gp.className === "smallimg") {
+            gp.className = "largeimg"; }
+        else {
+            gp.className = "smallimg"; }
+    };
 
     app.init = function () {
         var pobj;
