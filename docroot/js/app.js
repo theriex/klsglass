@@ -23,10 +23,11 @@ var jt = {};
 
 
     function filterSelectedPicTypes () {
+        //e.g. "20230926_kgas_GeodeKintsugi175341621.jpg"
         var pfs = picfiles;
         const gtypes = [{t:"Stained", v:"s", c:true},
-                       {t:"Blown", v:"b", c:true},
-                       {t:"Fused", v:"f", c:true}];
+                        {t:"Fused", v:"f", c:true},
+                        {t:"Blown", v:"b", c:true}];
         if(!jt.byId("sgtcb")) {
             jt.out("pictypeseldiv", jt.tac2html(gtypes.map((gt) =>
                 jt.tac2html([["input", {type:"checkbox", id:gt.v + "gtcb",
@@ -36,6 +37,11 @@ var jt = {};
         gtypes.forEach(function (gt) {
             if(!jt.byId(gt.v + "gtcb").checked) {
                 pfs = pfs.filter((nm) => nm.indexOf("kga" + gt.v) < 0); } });
+        const pts = gtypes.map((qt) => qt.v);
+        pfs.sort(function (a, b) {
+            const tai = pts.indexOf(a.match(/_kga(.)_/)[1]);
+            const tbi = pts.indexOf(b.match(/_kga(.)_/)[1]);
+            return ((tai - tbi) || b.localeCompare(a)); });
         return pfs;
     }
 
